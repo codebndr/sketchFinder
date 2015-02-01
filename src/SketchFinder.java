@@ -23,19 +23,19 @@ public class SketchFinder {
 	static private void parse(String[] args) {
 		tree.addRoot(new File(args[0]));
 		for (int i = 1; i < args.length; i++) {
-			if (args[i].equals("hideExtensions")) {
+			if (args[i].equalsIgnoreCase("hideExtensions")) {
 				useExtensions=false;
 			} 
-			else if (args[i].equals("showProjectFiles")) {
+			else if (args[i].equalsIgnoreCase("showProjectFiles")) {
 				showProjectFiles=true;
 			}
-			else if (args[i].equals("hideLibraryFiles")) {
+			else if (args[i].equalsIgnoreCase("hideLibraryFiles")) {
 				showLibraryFiles=false;
 			}
-			else if (args[i].equals("showHiddenFiles")) {
+			else if (args[i].equalsIgnoreCase("showHiddenFiles")) {
 				showHiddenFiles = true;
 			}
-			else if (args[i].equals("showUnderscoreFiles")) {
+			else if (args[i].equalsIgnoreCase("showUnderscoreFiles")) {
 				showUnderscoreFiles = true;
 			}
 		}
