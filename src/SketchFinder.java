@@ -120,7 +120,7 @@ public class SketchFinder {
 		public String toString() {
 			return toString(0);
 		}
-
+		//sort the files and subfolders respectively and print them.
 		public String toString(int level) {
 			files.sort(new Comparator<File>() {
 				@Override
@@ -144,7 +144,7 @@ public class SketchFinder {
 
 			StringBuffer output = new StringBuffer("> " + folder.getName() + "\n");
 			for (File f : files) {
-				output.append(indentation).append(f.getName()).append("\n");
+				output.append(indentation).append(f.getName().substring(0, f.getName().lastIndexOf("."))).append("\n");
 			}
 			for (FileTree sub : subfolders) {
 				output.append(indentation).append(sub.toString(level));
