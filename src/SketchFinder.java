@@ -16,18 +16,28 @@ public class SketchFinder {
 	static AtomicBoolean useExtensions = new AtomicBoolean(true);
 	static AtomicBoolean showProjectFiles = new AtomicBoolean(false);
 	static AtomicBoolean showLibraryFiles = new AtomicBoolean(true);
+	static AtomicBoolean showHiddenFiles = new AtomicBoolean(false);
+	static AtomicBoolean showUnderscoreFiles = new AtomicBoolean(false);
 	static boolean inLibrary = false;
+	
 
 	static private void parse(String[] args) {
 		tree.addRoot(new File(args[0]));
 		for (int i = 1; i < args.length; i++) {
 			if (args[i].equals("hideExtensions")) {
 				useExtensions.set(false);
-			} else if (args[i].equals("showProjectFiles")) {
+			} 
+			else if (args[i].equals("showProjectFiles")) {
 				showProjectFiles.set(true);
 			}
-			if (args[i].equals("hideLibraryFiles")) {
+			else if (args[i].equals("hideLibraryFiles")) {
 				showLibraryFiles.set(false);
+			}
+			else if (args[i].equals("showHiddenFiles")) {
+				showHiddenFiles.set(true);
+			}
+			else if (args[i].equals("showUnderscoreFiles")) {
+				showUnderscoreFiles.set(true);
 			}
 		}
 	}
@@ -71,7 +81,12 @@ public class SketchFinder {
 					tree.addSubfolder(sub);
 				}
 			} else if (showProjectFiles.get()) {
-				tree.addFile(f);
+				if(f.isHidden()) {
+					if(showHiddenFiles.get())
+						tree.addFile(f);
+				} else {
+					tree.addFile(f);
+				}
 			}
 		}
 		System.out.println("Projects:");
@@ -92,6 +107,14 @@ public class SketchFinder {
 		// check whether the folder is empty or not.
 		boolean hasStuff = false;
 		for (File f : folder.listFiles()) {
+
+			if(f.isHidden() && !showHiddenFiles.get()) {
+				continue;
+			}
+			
+			if(!showUnderscoreFiles.get() && f.getName().startsWith("_")) {
+				continue;
+			}
 
 			if (f.isDirectory()) {
 				FileTree sub = getSketches(f);
