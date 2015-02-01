@@ -26,20 +26,20 @@ public class SketchFinder {
 
 		FileTree tree = new FileTree(folder); // the tree will hold the entire
 												// file structures.
-		FileTree libraries; // the libraries tree will hold the all the
+		FileTree libraries = null; // the libraries tree will hold the all the
 							// libraries in the folder.
 
 		// iterate the folder, add all the files with extension .ino or .pde to
 		// the files child.
 		// add all the subfolders to the subfolder.
 		for (File f : folder.listFiles()) {
-			// if the subfolder name is libraries folder, we will scan the
-			// folder and return a library tree.
-			if (f.getName() == "libraries") {
-				libraries = getLibraries(f);
-			}
-
 			if (f.isDirectory()) {
+				// if the subfolder name is libraries folder, we will scan the
+				// folder and return a library tree.
+				if (f.getName().equals("libraries")) {
+					libraries = getLibraries(f);
+				}
+				
 				FileTree sub = getSketches(f);
 				if (sub != null) {
 					tree.addSubfolder(sub);
@@ -48,8 +48,15 @@ public class SketchFinder {
 				tree.addFile(f);
 			}
 		}
-
+		System.out.println("Projects:");
 		System.out.println(tree);
+		
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		
+		System.out.println("Libraries:");
+		System.out.println(libraries);
 
 	}
 
