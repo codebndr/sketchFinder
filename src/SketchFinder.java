@@ -51,11 +51,11 @@ public class SketchFinder {
 		System.out.println("Projects:");
 		System.out.println(tree);
 		
+		for(int i=0; i<70; i++) {
+			System.out.print("-");
+		}
 		System.out.println();
-		System.out.println();
-		System.out.println();
-		
-		System.out.println("Libraries:");
+//		System.out.println("Libraries:");
 		System.out.println(libraries);
 
 	}
