@@ -6,34 +6,39 @@
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class SketchFinder {
 	public static void main(String[] args) {
 
 		File folder = parse(args);
-		
+
 		if (!folder.exists()) {
 			System.err.print("The folder doesn't exist!");
 			return;
 		}
-		
+
 		if (!folder.isDirectory()) {
 			System.err.print("The folder is not a directory!");
 			return;
 		}
 
-		FileTree tree = new FileTree(folder); //the tree will hold the entire file structures.
-		FileTree libraries; //the libraries tree will hold the all the libraries in the folder.
-		
-		//iterate the folder, add all the files with extension .ino or .pde to the files child.
-		//add all the subfolders to the subfolder.
+		FileTree tree = new FileTree(folder); // the tree will hold the entire
+												// file structures.
+		FileTree libraries; // the libraries tree will hold the all the
+							// libraries in the folder.
+
+		// iterate the folder, add all the files with extension .ino or .pde to
+		// the files child.
+		// add all the subfolders to the subfolder.
 		for (File f : folder.listFiles()) {
-			//if the subfolder name is libraries folder, we will scan the folder and return a library tree.
+			// if the subfolder name is libraries folder, we will scan the
+			// folder and return a library tree.
 			if (f.getName() == "libraries") {
 				libraries = getLibraries(f);
 			}
-			
+
 			if (f.isDirectory()) {
 				FileTree sub = getSketches(f);
 				if (sub != null) {
@@ -43,14 +48,16 @@ public class SketchFinder {
 				tree.addFile(f);
 			}
 		}
-		System.out.println(tree.getFolder());
+
+		System.out.println(tree);
+
 	}
-	
-	//the method is to get the file structure recursively.
+
+	// the method is to get the file structure recursively.
 	private static FileTree getSketches(File folder) {
 		FileTree tree = new FileTree(folder);
-		
-		//check whether the folder is empty or not.
+
+		// check whether the folder is empty or not.
 		boolean hasStuff = false;
 		for (File f : folder.listFiles()) {
 
@@ -73,8 +80,7 @@ public class SketchFinder {
 		}
 	}
 
-	
-	//this method is to get the libraries in the libraries folder.
+	// this method is to get the libraries in the libraries folder.
 	private static FileTree getLibraries(File folder) {
 		return getSketches(folder);
 	}
@@ -110,10 +116,41 @@ public class SketchFinder {
 			files.add(f);
 		}
 
-//		@Override
-//		public String toString() {
-//			return null;
-//		}
+		@Override
+		public String toString() {
+			return toString(0);
+		}
+
+		public String toString(int level) {
+			files.sort(new Comparator<File>() {
+				@Override
+				public int compare(File file, File file2) {
+					return file.getName().compareToIgnoreCase(file2.getName());
+				}
+			});
+			subfolders.sort(new Comparator<FileTree>() {
+				@Override
+				public int compare(FileTree ft, FileTree ft2) {
+					return ft.folder.getName().compareToIgnoreCase(
+							ft2.folder.getName());
+				}
+			});
+
+			level++;
+			String indentation = "";
+			for (int i = 0; i < level; i++) {
+				indentation += "    ";
+			}
+
+			StringBuffer output = new StringBuffer("> " + folder.getName() + "\n");
+			for (File f : files) {
+				output.append(indentation).append(f.getName()).append("\n");
+			}
+			for (FileTree sub : subfolders) {
+				output.append(indentation).append(sub.toString(level));
+			}
+			return output.toString();
+		}
 	}
 
 	static private File parse(String[] args) {
