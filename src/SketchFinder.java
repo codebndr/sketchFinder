@@ -8,16 +8,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SketchFinder {
 	static FileTree tree = new FileTree(); // the tree will hold the entire
-	// file structures.
-	static AtomicBoolean useExtensions = new AtomicBoolean(true);
-	static AtomicBoolean showProjectFiles = new AtomicBoolean(false);
-	static AtomicBoolean showLibraryFiles = new AtomicBoolean(true);
-	static AtomicBoolean showHiddenFiles = new AtomicBoolean(false);
-	static AtomicBoolean showUnderscoreFiles = new AtomicBoolean(false);
+	// add some options to control whether to print certain kinds of files.
+	static boolean useExtensions = true;
+	static boolean showProjectFiles = false;
+	static boolean showLibraryFiles = true;
+	static boolean showHiddenFiles = false;
+	static boolean showUnderscoreFiles = false;
 	static boolean inLibrary = false;
 	
 
@@ -25,19 +24,19 @@ public class SketchFinder {
 		tree.addRoot(new File(args[0]));
 		for (int i = 1; i < args.length; i++) {
 			if (args[i].equals("hideExtensions")) {
-				useExtensions.set(false);
+				useExtensions=false;
 			} 
 			else if (args[i].equals("showProjectFiles")) {
-				showProjectFiles.set(true);
+				showProjectFiles=true;
 			}
 			else if (args[i].equals("hideLibraryFiles")) {
-				showLibraryFiles.set(false);
+				showLibraryFiles=false;
 			}
 			else if (args[i].equals("showHiddenFiles")) {
-				showHiddenFiles.set(true);
+				showHiddenFiles = true;
 			}
 			else if (args[i].equals("showUnderscoreFiles")) {
-				showUnderscoreFiles.set(true);
+				showUnderscoreFiles = true;
 			}
 		}
 	}
@@ -66,6 +65,14 @@ public class SketchFinder {
 		// the files child.
 		// add all the subfolders to the subfolder.
 		for (File f : folder.listFiles()) {
+			if(f.isHidden() && !showHiddenFiles) {
+				continue;
+			}
+			
+			if(!showUnderscoreFiles && f.getName().startsWith("_")) {
+				continue;
+			}
+			
 			if (f.isDirectory()) {
 				// if the subfolder name is libraries folder, we will scan the
 				// folder and return a library tree.
@@ -80,13 +87,8 @@ public class SketchFinder {
 				if (sub != null) {
 					tree.addSubfolder(sub);
 				}
-			} else if (showProjectFiles.get()) {
-				if(f.isHidden()) {
-					if(showHiddenFiles.get())
-						tree.addFile(f);
-				} else {
-					tree.addFile(f);
-				}
+			} else if (showProjectFiles) {	
+				tree.addFile(f);
 			}
 		}
 		System.out.println("Projects:");
@@ -108,11 +110,11 @@ public class SketchFinder {
 		boolean hasStuff = false;
 		for (File f : folder.listFiles()) {
 
-			if(f.isHidden() && !showHiddenFiles.get()) {
+			if(f.isHidden() && !showHiddenFiles) {
 				continue;
 			}
 			
-			if(!showUnderscoreFiles.get() && f.getName().startsWith("_")) {
+			if(!showUnderscoreFiles && f.getName().startsWith("_")) {
 				continue;
 			}
 
@@ -123,12 +125,12 @@ public class SketchFinder {
 					hasStuff = true;
 				}
 			} else {
-				if (inLibrary && showLibraryFiles.get()) {
+				if (inLibrary && showLibraryFiles) {
 					tree.addFile(f);
-				} else if (!inLibrary && showProjectFiles.get()) {
+				} else if (!inLibrary && showProjectFiles) {
 					tree.addFile(f);
 				}
-				if (isIno(f) || isPde(f)) {
+				if (inLibrary || isIno(f) || isPde(f)) {
 					hasStuff = true;
 				}
 			}
@@ -219,7 +221,7 @@ public class SketchFinder {
 			StringBuffer output = new StringBuffer("> " + folder.getName()
 					+ "\n");
 			for (File f : files) {
-				if (useExtensions.get()) {
+				if (useExtensions) {
 					output.append(indentation).append(f.getName()).append("\n");
 				} else {
 					output.append(indentation)
