@@ -1,5 +1,5 @@
 /** 
- * @author Kevin Zhu, Waldo Withers E-mail: wz246@cornell.edu ldw48@cornell.edu
+ * @author Wen Zhu, Waldo Withers E-mail: wz246@cornell.edu ldw48@cornell.edu
  * @version ：Feb 1, 2015 10:43:45 AM 
  * Despcription: This program is to find the projects and libraries in the sketch folder
  */
@@ -12,6 +12,7 @@ import java.util.List;
 public class SketchFinder {
 	static FileTree tree = new FileTree(); // the tree will hold the entire
 	// add some options to control whether to print certain kinds of files.
+	static boolean help = false;
 	static boolean useExtensions = true;
 	static boolean showProjectFiles = false;
 	static boolean showLibraryFiles = true;
@@ -21,7 +22,12 @@ public class SketchFinder {
 	
 
 	static private void parse(String[] args) {
-		tree.addRoot(new File(args[0]));
+		if (args[0].equals("--help") || args[0].equals("-help") || args[0].equals("-h")|| args[0].equals("--h"))
+			help= true;
+		else {
+			tree.addRoot(new File(args[0]));
+		}
+		
 		for (int i = 1; i < args.length; i++) {
 			if (args[i].equalsIgnoreCase("hideExtensions")) {
 				useExtensions=false;
@@ -44,6 +50,17 @@ public class SketchFinder {
 	public static void main(String[] args) {
 
 		parse(args);
+		
+		if (help){
+			System.out.print("usage: sketchFinder [filepath -h --h --help -help] [args] \n"
+					+ "args include: \n"
+					+ "  hideExtensions \n"
+					+ "  showProjectFiles \n"
+					+ "  hideLibraryFiles \n"
+					+ "  showHiddenFiles \n"
+					+ "  showUnderscoreFiles \n"); //TODO: Get help message.
+			return;
+		}
 
 		File folder = tree.getRoot();
 
@@ -76,7 +93,7 @@ public class SketchFinder {
 			if (f.isDirectory()) {
 				// if the subfolder name is libraries folder, we will scan the
 				// folder and return a library tree.
-				if (f.getName().equals("libraries")) {
+				if (f.getName().equalsIgnoreCase("libraries")) {
 					inLibrary = true;
 					libraries = getLibraries(f);
 					inLibrary = false;
@@ -98,7 +115,12 @@ public class SketchFinder {
 			System.out.print("-");
 		}
 		System.out.println();
+		
+		if (libraries != null) {
 		System.out.println(libraries);
+		} else {
+			System.out.println("No libraries found");
+		}
 
 	}
 
