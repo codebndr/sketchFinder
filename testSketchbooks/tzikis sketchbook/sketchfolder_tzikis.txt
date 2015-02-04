@@ -1,0 +1,344 @@
+~sketchbook
+~sketchbook/.DS_Store
+~sketchbook/AnalogInOutSerial_forProximity
+~sketchbook/AnalogInOutSerial_forProximity/AnalogInOutSerial_forProximity.pde
+~sketchbook/AnalogInOutSerial_fuckedup
+~sketchbook/AnalogInOutSerial_fuckedup/AnalogInOutSerial_fuckedup.pde
+~sketchbook/antonakoglou
+~sketchbook/antonakoglou/ardsensirion
+~sketchbook/antonakoglou/ardsensirion/ardsensirion.pde
+~sketchbook/antonakoglou/ITG3200_ADXL345
+~sketchbook/antonakoglou/ITG3200_ADXL345/ITG3200_ADXL345.pde
+~sketchbook/antonakoglou/ITG3200_ADXL345/LICENSE.txt
+~sketchbook/antonakoglou/ITG3200_ADXL345_Processing
+~sketchbook/antonakoglou/ITG3200_ADXL345_Processing/data
+~sketchbook/antonakoglou/ITG3200_ADXL345_Processing/data/CourierNew36.vlw
+~sketchbook/antonakoglou/ITG3200_ADXL345_Processing/ITG3200_ADXL345_Processing.pde
+~sketchbook/antonakoglou/ITG3200_ADXL345_Processing/LICENSE.txt
+===========================================================================
+=================== ANTONAKOGLOU LIBRARIES FOLDER WAS HERE ================
+===========================================================================
+~sketchbook/arduino_pro_mini_shields_demo
+~sketchbook/arduino_pro_mini_shields_demo/arduino_pro_mini_shields_demo.pde
+~sketchbook/arduino_pro_mini_shields_demo.zip
+~sketchbook/bedroom
+~sketchbook/bedroom/bedroom.pde
+~sketchbook/CoAP_CTI
+~sketchbook/CoAP_CTI/CoAP_CTI.ino
+~sketchbook/CoAP_CTI/mySensor.h
+~sketchbook/CoAP_CTI/oldcode.cpp
+~sketchbook/CoAP_Use_Example_New
+~sketchbook/CoAP_Use_Example_New/CoAP_Use_Example_New.ino
+~sketchbook/CoAP_Use_Example_New/mySensor.h
+~sketchbook/CoAP_Use_Example_New/oldcode.cpp
+~sketchbook/CoAP_Use_Example_New.zip
+~sketchbook/CoapCeilingController
+~sketchbook/CoapCeilingController/CoapCeilingController.ino
+~sketchbook/CoapCeilingController/myclass.h
+~sketchbook/CTI
+~sketchbook/CTI/.DS_Store
+~sketchbook/CTI/auto_detect_master
+~sketchbook/CTI/auto_detect_master/auto_detect_master.ino
+~sketchbook/CTI/Bucket Nodes
+~sketchbook/CTI/Bucket Nodes/bucket_node
+~sketchbook/CTI/Bucket Nodes/bucket_node/.svn
+=========== SVN FILES HERE (DELETED) ===========
+~sketchbook/CTI/Bucket Nodes/bucket_node/BlinkM_funcs.h
+~sketchbook/CTI/Bucket Nodes/bucket_node/bucket_node.ino
+~sketchbook/CTI/coap
+~sketchbook/CTI/coap/.DS_Store
+~sketchbook/CTI/coap/coap.ino
+~sketchbook/CTI/Echo Protocol
+~sketchbook/CTI/Echo Protocol/.DS_Store
+~sketchbook/CTI/Echo Protocol/echo_test
+~sketchbook/CTI/Echo Protocol/echo_test/echo_test.pde
+~sketchbook/CTI/home_automation_project
+~sketchbook/CTI/home_automation_project/.DS_Store
+~sketchbook/CTI/home_automation_project/Module_complete
+~sketchbook/CTI/home_automation_project/Module_complete/Module_complete.ino
+~sketchbook/CTI/home_automation_project/Module_new_alexiou_kolonias.zip
+~sketchbook/CTI/Light Controller
+~sketchbook/CTI/Light Controller/.DS_Store
+~sketchbook/CTI/Light Controller/xbee_pir_auto
+~sketchbook/CTI/Light Controller/xbee_pir_auto/xbee_pir_auto.pde
+~sketchbook/CTI/Light Controller/xbee_pir_ethernet
+~sketchbook/CTI/Light Controller/xbee_pir_ethernet/applet
+~sketchbook/CTI/Light Controller/xbee_pir_ethernet/applet/xbee_pir_ethernet.cpp
+~sketchbook/CTI/Light Controller/xbee_pir_ethernet/xbee_pir_ethernet.pde
+~sketchbook/CTI/Light Controller/xbee_pir_node
+~sketchbook/CTI/Light Controller/xbee_pir_node/.DS_Store
+~sketchbook/CTI/Light Controller/xbee_pir_node/xbee_pir_node (draconix's conflicted copy 2010-10-21).pde
+~sketchbook/CTI/Light Controller/xbee_pir_node/xbee_pir_node.pde
+~sketchbook/CTI/mkSense and Echo Bandwidth Testing
+~sketchbook/CTI/mkSense and Echo Bandwidth Testing/.DS_Store
+~sketchbook/CTI/mkSense and Echo Bandwidth Testing/echo_prot_send
+~sketchbook/CTI/mkSense and Echo Bandwidth Testing/echo_prot_send/echo_prot_send.pde
+~sketchbook/CTI/mkSense and Echo Bandwidth Testing/mksense_evaluation_forjohn
+~sketchbook/CTI/mkSense and Echo Bandwidth Testing/mksense_evaluation_forjohn/.svn
+=========== SVN FILES HERE (DELETED) ===========
+~sketchbook/CTI/mkSense and Echo Bandwidth Testing/mksense_evaluation_forjohn/mksense_evaluation_forjohn.pde
+~sketchbook/CTI/pwm_auto_detect_master
+~sketchbook/CTI/pwm_auto_detect_master/pwm_auto_detect_master.ino
+~sketchbook/demo_delete
+~sketchbook/demo_delete/demo_delete.ino
+~sketchbook/dosketch
+~sketchbook/dosketch/dosketch.h
+~sketchbook/dosketch/dosketch.ino
+~sketchbook/dosketch/keycodes.h
+~sketchbook/eeprom_read_test
+~sketchbook/eeprom_read_test/eeprom_read_test.ino
+~sketchbook/eeprom_read_test/Shit.cpp
+~sketchbook/eeprom_read_test/Shit.h
+~sketchbook/EthernetReset
+~sketchbook/EthernetReset/EthernetReset.cpp
+~sketchbook/EthernetReset/EthernetReset.h
+~sketchbook/EthernetReset/examples
+~sketchbook/EthernetReset/examples/ResetServer
+~sketchbook/EthernetReset/examples/ResetServer/ResetServer.ino
+~sketchbook/EthernetReset/keywords.txt
+~sketchbook/etherShield_webserver
+~sketchbook/etherShield_webserver/etherShield_webserver.pde
+
+===========================================================
+==================== HARDWARE WAS HERE ====================
+===========================================================
+
+~sketchbook/Home
+~sketchbook/Home/.DS_Store
+~sketchbook/Home/Arduino Shutters Control
+~sketchbook/Home/Arduino Shutters Control/.DS_Store
+~sketchbook/Home/Arduino Shutters Control/Arduino_Shutters_XBee.zip
+~sketchbook/Home/Arduino Shutters Control/bros-b4-hos-sound.m4a
+~sketchbook/Home/Arduino Shutters Control/Button_clean
+~sketchbook/Home/Arduino Shutters Control/Button_clean/Button_clean.pde
+~sketchbook/Home/Arduino Shutters Control/Button_clean.zip
+~sketchbook/Home/Arduino Shutters Control/Ethernet_XBee_Control_Shutters
+~sketchbook/Home/Arduino Shutters Control/Ethernet_XBee_Control_Shutters/Ethernet_XBee_Control_Shutters.pde
+~sketchbook/Home/Arduino Shutters Control/XBee_Control_Shutters_Automatic
+~sketchbook/Home/Arduino Shutters Control/XBee_Control_Shutters_Automatic/XBee_Control_Shutters_Automatic (draconix's conflicted copy 2010-10-24).pde
+~sketchbook/Home/Arduino Shutters Control/XBee_Control_Shutters_Automatic/XBee_Control_Shutters_Automatic.pde
+~sketchbook/Home/Arduino Shutters Control/XBee_Control_Shutters_new
+~sketchbook/Home/Arduino Shutters Control/XBee_Control_Shutters_new/XBee_Control_Shutters_new.ino
+~sketchbook/Home/Button
+~sketchbook/Home/Button/Button.pde
+~sketchbook/Home/home-automation
+~sketchbook/Home/home-automation/.DS_Store
+~sketchbook/Home/home-automation/.git
+=========== GIT FILES HERE (DELETED) ===========
+~sketchbook/Home/home-automation/alarm_clock
+~sketchbook/Home/home-automation/alarm_clock/alarm_clock.pde
+~sketchbook/Home/home-automation/ethernet_xbee_defs
+~sketchbook/Home/home-automation/ethernet_xbee_defs/.DS_Store
+~sketchbook/Home/home-automation/ethernet_xbee_defs/ethernet_xbee_defs.h
+~sketchbook/Home/home-automation/HomeAuto
+~sketchbook/Home/home-automation/HomeAuto/HomeAuto.cpp
+~sketchbook/Home/home-automation/HomeAuto/HomeAuto.h
+~sketchbook/Home/home-automation/ipod_xbee_remote_withapi
+~sketchbook/Home/home-automation/ipod_xbee_remote_withapi/ipod_xbee_remote_withapi.pde
+~sketchbook/Home/home-automation/ipod_xbee_remote_withapi_and_volume
+~sketchbook/Home/home-automation/ipod_xbee_remote_withapi_and_volume/ipod_xbee_remote_withapi_and_volume.pde
+~sketchbook/Home/home-automation/light_receiver_withlib
+~sketchbook/Home/home-automation/light_receiver_withlib/light_receiver_withlib.pde
+~sketchbook/Home/home-automation/light_receiver_withlib_and_reader
+~sketchbook/Home/home-automation/light_receiver_withlib_and_reader/light_receiver_withlib_and_reader.pde
+~sketchbook/Home/home-automation/old_samples
+~sketchbook/Home/home-automation/old_samples/light_receiver
+~sketchbook/Home/home-automation/old_samples/light_receiver/light_receiver.pde
+~sketchbook/Home/home-automation/old_samples/shutters_receiver
+~sketchbook/Home/home-automation/old_samples/shutters_receiver/shutters_receiver.pde
+~sketchbook/Home/home-automation/README
+~sketchbook/Home/home-automation/remote_lcd_controler
+~sketchbook/Home/home-automation/remote_lcd_controler/remote_lcd_controler.pde
+~sketchbook/Home/home-automation/remote_lcd_controler/tzikis_blackwhite_glcd.h
+~sketchbook/Home/home-automation/shutters_receiver_withlib
+~sketchbook/Home/home-automation/shutters_receiver_withlib/shutters_receiver_withlib.pde
+~sketchbook/Home/home-automation/shutters_receiver_withlib_new
+~sketchbook/Home/home-automation/shutters_receiver_withlib_new/shutters_receiver_withlib_new.ino
+~sketchbook/Home/home-automation/thermosifonas
+~sketchbook/Home/home-automation/thermosifonas/thermosifonas.ino
+~sketchbook/Home/light_status_external_reader
+~sketchbook/Home/light_status_external_reader/light_status_external_reader.pde
+~sketchbook/interrupt_test
+~sketchbook/interrupt_test/interrupt_test.pde
+~sketchbook/ipod_simple_remote
+~sketchbook/ipod_simple_remote/ipod_simple_remote.pde
+~sketchbook/IR_Proximity_Sensor
+~sketchbook/IR_Proximity_Sensor/IR_Proximity_Sensor.pde
+
+====================================================
+================ LIBRARIES WAS HERE ================
+====================================================
+
+~sketchbook/linux_inside_ethernet
+~sketchbook/linux_inside_ethernet/linux_inside_ethernet.pde
+~sketchbook/livingroom
+~sketchbook/livingroom/livingroom.pde
+~sketchbook/md5_working_sketch
+~sketchbook/md5_working_sketch/md5_working_sketch.ino
+~sketchbook/MD5HashingV6
+~sketchbook/MD5HashingV6/.DS_Store
+~sketchbook/MD5HashingV6/global.h
+~sketchbook/MD5HashingV6/MD5.c
+~sketchbook/MD5HashingV6/MD5.h
+~sketchbook/MD5HashingV6/MD5HashingV6.ino
+~sketchbook/Module_complete
+~sketchbook/Module_complete/Module_complete.pde
+~sketchbook/mpousis_testing
+~sketchbook/mpousis_testing/mpousis_testing.pde
+~sketchbook/myblink
+~sketchbook/myblink/.sconsign.dblite
+~sketchbook/myblink/build
+~sketchbook/myblink/build/core
+~sketchbook/myblink/build/core/Arduino.h
+~sketchbook/myblink/build/core/binary.h
+~sketchbook/myblink/build/core/CDC.cpp
+~sketchbook/myblink/build/core/CDC.o
+~sketchbook/myblink/build/core/HardwareSerial.cpp
+~sketchbook/myblink/build/core/HardwareSerial.h
+~sketchbook/myblink/build/core/HardwareSerial.o
+~sketchbook/myblink/build/core/HID.cpp
+~sketchbook/myblink/build/core/HID.o
+~sketchbook/myblink/build/core/IPAddress.cpp
+~sketchbook/myblink/build/core/IPAddress.h
+~sketchbook/myblink/build/core/IPAddress.o
+~sketchbook/myblink/build/core/new.cpp
+~sketchbook/myblink/build/core/new.h
+~sketchbook/myblink/build/core/new.o
+~sketchbook/myblink/build/core/Platform.h
+~sketchbook/myblink/build/core/Print.cpp
+~sketchbook/myblink/build/core/Print.h
+~sketchbook/myblink/build/core/Print.o
+~sketchbook/myblink/build/core/Printable.h
+~sketchbook/myblink/build/core/Stream.cpp
+~sketchbook/myblink/build/core/Stream.h
+~sketchbook/myblink/build/core/Stream.o
+~sketchbook/myblink/build/core/Tone.cpp
+~sketchbook/myblink/build/core/Tone.o
+~sketchbook/myblink/build/core/USBAPI.h
+~sketchbook/myblink/build/core/USBCore.cpp
+~sketchbook/myblink/build/core/USBCore.h
+~sketchbook/myblink/build/core/USBCore.o
+~sketchbook/myblink/build/core/USBDesc.h
+~sketchbook/myblink/build/core/WCharacter.h
+~sketchbook/myblink/build/core/WInterrupts.c
+~sketchbook/myblink/build/core/WInterrupts.o
+~sketchbook/myblink/build/core/wiring.c
+~sketchbook/myblink/build/core/wiring.o
+~sketchbook/myblink/build/core/wiring_analog.c
+~sketchbook/myblink/build/core/wiring_analog.o
+~sketchbook/myblink/build/core/wiring_digital.c
+~sketchbook/myblink/build/core/wiring_digital.o
+~sketchbook/myblink/build/core/wiring_private.h
+~sketchbook/myblink/build/core/wiring_pulse.c
+~sketchbook/myblink/build/core/wiring_pulse.o
+~sketchbook/myblink/build/core/wiring_shift.c
+~sketchbook/myblink/build/core/wiring_shift.o
+~sketchbook/myblink/build/core/WMath.cpp
+~sketchbook/myblink/build/core/WMath.o
+~sketchbook/myblink/build/core/WString.cpp
+~sketchbook/myblink/build/core/WString.h
+~sketchbook/myblink/build/core/WString.o
+~sketchbook/myblink/build/core.a
+~sketchbook/myblink/build/myblink.cpp
+~sketchbook/myblink/build/myblink.ino
+~sketchbook/myblink/build/myblink.o
+~sketchbook/myblink/myblink.bin
+~sketchbook/myblink/myblink.elf
+~sketchbook/myblink/myblink.hex
+~sketchbook/myblink/myblink.ino
+~sketchbook/myblink/SConstruct
+~sketchbook/mywebdemo
+~sketchbook/mywebdemo/header.h
+~sketchbook/mywebdemo/mywebdemo.ino
+~sketchbook/NetEEPROM
+~sketchbook/NetEEPROM/examples
+~sketchbook/NetEEPROM/examples/ReadNetworkSettings
+~sketchbook/NetEEPROM/examples/ReadNetworkSettings/ReadNetworkSettings.ino
+~sketchbook/NetEEPROM/examples/WriteNetworkSettings
+~sketchbook/NetEEPROM/examples/WriteNetworkSettings/WriteNetworkSettings.ino
+~sketchbook/NetEEPROM/keywords.txt
+~sketchbook/NetEEPROM/NetEEPROM.cpp
+~sketchbook/NetEEPROM/NetEEPROM.h
+~sketchbook/NetEEPROM/NetEEPROM_defs.h
+~sketchbook/NewEEPROM
+~sketchbook/NewEEPROM/examples
+~sketchbook/NewEEPROM/examples/eeprom_clear
+~sketchbook/NewEEPROM/examples/eeprom_clear/eeprom_clear.ino
+~sketchbook/NewEEPROM/keywords.txt
+~sketchbook/NewEEPROM/NewEEPROM.cpp
+~sketchbook/NewEEPROM/NewEEPROM.h
+~sketchbook/Repetier
+~sketchbook/Repetier/Commands.cpp
+~sketchbook/Repetier/Configuration.h
+~sketchbook/Repetier/Eeprom.cpp
+~sketchbook/Repetier/Eeprom.h
+~sketchbook/Repetier/Extruder.cpp
+~sketchbook/Repetier/fastio.h
+~sketchbook/Repetier/FatStructs.h
+~sketchbook/Repetier/gcode.cpp
+~sketchbook/Repetier/gcode.h
+~sketchbook/Repetier/locale
+~sketchbook/Repetier/locale/ui-lang-de.h
+~sketchbook/Repetier/locale/ui-lang-en.h
+~sketchbook/Repetier/Makefile
+~sketchbook/Repetier/motion.cpp
+~sketchbook/Repetier/pins.h
+~sketchbook/Repetier/repetier communication protocol.txt
+~sketchbook/Repetier/Repetier.pde
+~sketchbook/Repetier/Reptier.h
+~sketchbook/Repetier/SDCard.cpp
+~sketchbook/Repetier/SdFat.cpp
+~sketchbook/Repetier/SdFat.h
+~sketchbook/Repetier/ui.cpp
+~sketchbook/Repetier/ui.h
+~sketchbook/Repetier/uiconfig.h
+~sketchbook/Repetier/uilang.h
+~sketchbook/Repetier/uimenu.h
+~sketchbook/Repetiercopy
+~sketchbook/Repetiercopy/commands.cpp
+~sketchbook/Repetiercopy/Configuration.h
+~sketchbook/Repetiercopy/Eeprom.cpp
+~sketchbook/Repetiercopy/Eeprom.h
+~sketchbook/Repetiercopy/Extruder.cpp
+~sketchbook/Repetiercopy/fastio.h
+~sketchbook/Repetiercopy/FatStructs.h
+~sketchbook/Repetiercopy/gcode.cpp
+~sketchbook/Repetiercopy/gcode.h
+~sketchbook/Repetiercopy/motion.cpp
+~sketchbook/Repetiercopy/pins.h
+~sketchbook/Repetiercopy/Repetiercopy.ino
+~sketchbook/Repetiercopy/Reptier.h
+~sketchbook/Repetiercopy/SDCard.cpp
+~sketchbook/Repetiercopy/SdFat.cpp
+~sketchbook/Repetiercopy/SdFat.h
+~sketchbook/Repetiercopy/ui.cpp
+~sketchbook/Repetiercopy/ui.h
+~sketchbook/Repetiercopy/uiconfig.h
+~sketchbook/Repetiercopy/uilang.h
+~sketchbook/Repetiercopy/uimenu.h
+~sketchbook/XBee_Bikes
+~sketchbook/XBee_Bikes/.DS_Store
+~sketchbook/XBee_Bikes/bike_xbee_node
+~sketchbook/XBee_Bikes/bike_xbee_node/bike_xbee_node.pde
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/.DS_Store
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/core.a
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/HardwareSerial.cpp.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/pins_arduino.c.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/Print.cpp.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/sketch_100208a.cpp
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/sketch_100208a.cpp.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/sketch_100208a.elf
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/sketch_100208a.hex
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/sketch_100208a.pde
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/sketch_100208a.rom
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/WInterrupts.c.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/wiring.c.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/wiring_analog.c.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/wiring_digital.c.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/wiring_pulse.c.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/wiring_serial.c.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/wiring_shift.c.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/applet/WMath.cpp.o
+~sketchbook/XBee_Bikes/ReedTachometerV001_Arduino/ReedTachometerV001_Arduino.pde

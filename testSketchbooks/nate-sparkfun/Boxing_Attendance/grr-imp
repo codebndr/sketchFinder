@@ -1,0 +1,134 @@
+
+
+Imp as of 10:47
+
+// Reads data from a station and pushes it to an agent
+// Agent then pushes the weather data to Wunderground
+// by: Nathan Seidle
+//     SparkFun Electronics
+// date: October 4, 2013
+// license: BeerWare
+//          Please use, reuse, and modify this code as you need.
+//          We hope it saves you some time, or helps you learn something!
+//          If you find it handy, and we meet some day, you can buy me a beer or iced tea in return.
+
+
+imp.configure("WeatherImp", [], []);
+
+myBoard <- hardware.uart57;
+myBoard.configure(19200, 8, PARITY_NONE, 1, NO_CTSRTS); // 19200 baud worked well, no parity, 1 stop bit, 8 data bits
+
+local rxLEDToggle = 1;  // These variables keep track of rx/tx LED toggling status
+local txLEDToggle = 1;
+
+function initUart()
+{
+    //hardware.configure(UART_57);    // Using UART on pins 5 and 7
+}
+
+function initLEDs()
+{
+    // LEDs are on pins 8 and 9 on the imp Shield
+    // They're both active low, so writing the pin a 1 will turn the LED off
+    hardware.pin8.configure(DIGITAL_OUT_OD_PULLUP);
+    hardware.pin9.configure(DIGITAL_OUT_OD_PULLUP);
+    hardware.pin8.write(1); //RX LED
+    hardware.pin9.write(1); //TX LED
+}
+
+// This function turns an LED on/off quickly on pin 9.
+// It first turns the LED on, then calls itself again in 50ms to turn the LED off
+function toggleTxLED()
+{
+    txLEDToggle = 1 - txLEDToggle;    // toggle the txLEDtoggle variable
+    hardware.pin9.write(txLEDToggle);  // TX LED is on pin 8 (active-low)
+}
+
+// This function turns an LED on/off quickly on pin 8.
+// It first turns the LED on, then calls itself again in 50ms to turn the LED off
+function toggleRxLED()
+{
+    rxLEDToggle = 1 - rxLEDToggle;    // toggle the rxLEDtoggle variable
+    hardware.pin8.write(rxLEDToggle);   // RX LED is on pin 8 (active-low)
+}
+
+// Do something when the agent pongs us
+agent.on("pong", function(startMillis) {
+    // get the current time
+    local endMillis = hardware.millis();
+    // calculate how long the round trip took
+    local diff = endMillis - startMillis;
+    // log it
+    server.log("Round trip took: " + diff + "ms");
+    
+    // wakeup in 5 seconds and ping again
+    imp.wakeup(5.0, ping);
+});
+
+// Send a character to the Arduino to gather the latest data
+// Pass that data onto the Agent for parsing and posting to Wunderground
+function checkWeather() {
+    
+    server.log("Gathering new IDs");
+    
+    //Ping the Arduino with the ! character to get the latest data
+    myBoard.write("!");
+
+    //Get all the various bits from the Arduino over UART
+    local incomingStream = "";
+    local result = -1;
+    
+    //Wait for initial character to come in
+    local counter = 0;
+    while(result == -1)
+    {
+        result = hardware.uart57.read(); //Wait for a new character to arrive
+
+        imp.sleep(0.01);
+        if(counter++ > 200) //2 seconds
+        {
+            server.log("Serial timeout error");
+            return(0); //Bail after 200ms max wait 
+        }
+    }
+    
+    while (result != '\n')  // Keep reading until there is no data to be read.
+    {
+        //Wait no more than 200ms for another character
+        counter = 0;
+        while(result == -1)
+        {
+            result = hardware.uart57.read(); //Wait for a new character to arrive
+    
+            imp.sleep(0.01);
+            if(counter++ > 20)
+            {
+                server.log("Serial timeout error");
+                return(0); //Bail after 200ms max wait 
+            }
+        }
+        
+        incomingStream += format("%c", result);
+        toggleTxLED();  // Toggle the TX LED
+
+        result = hardware.uart57.read();
+    }
+        
+    server.log("We heard: " + format("%s", incomingStream)); // Display in log window
+    server.log("Arduino read complete");
+    
+    hardware.pin9.write(1); //TX LED off
+
+    // Send info to agent, that will in turn push to internet
+    agent.send("postToInternet", incomingStream);
+}
+ 
+// This is where our program actually starts! Previous stuff was all function and variable declaration.
+initUart(); // Initialize the UART, called just once
+initLEDs(); // Initialize the LEDs, called just once
+
+// Start this party going!
+checkWeather();
+
+//Sleep for 5seconds
+server.sleepfor(5);
