@@ -1,4 +1,0 @@
-/Users/Panagiotis/Documents/Arduino/
-/Users/Panagiotis/Documents/Arduino//libraries
-/Users/Panagiotis/Documents/Arduino//libraries/readme.txt
-/Users/Panagiotis/Documents/Arduino//results.txt

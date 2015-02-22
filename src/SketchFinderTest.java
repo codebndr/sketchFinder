@@ -23,40 +23,62 @@ public class SketchFinderTest {
 	public void testMain() {
 
 		// Test the Projects.
-		String[] nateSparkfunInput = {
-				"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/nate-sparkfun",
-				"hideProjectFiles" };
-		String temp = "Projects:\n> nate-sparkfun\n    > Alex Mouse\n        > Alex_Mouse\n    > Alpha_GPS_Clock\n    > AnnoyATron\n    > Battery_Tester\n        > Firmware\n            > Battery_Tester\n    > BigTime\n        > Firmware\n            > BigTime\n    > Boxing_Attendance\n    > ML8511_Breakout\n        > firmware\n            > MP8511_Read_Example\n    > MLX90620_Example\n        > MLX90620_alphaCalculator\n    > Money_Vacuum\n    > OpenLog\n        > firmware\n            > OpenLog_CommandTest\n            > OpenLog_ReadExample\n            > OpenLog_Test_Sketch\n            > OpenLog_Test_Sketch_Binary\n    > PicoDos\n        > firmware\n            > PicoDos\n    > SpeedBagCounter\n    > TopHat\n        > firmware\n            > TopHat_Basic\n    > Wimp_Weather_Station\n\n----------------------------------------------------------------------\n> libraries\n    readme.txt\n\n";
-		String[] nateSparkfunExpectedOutput = temp.split("[\n\r]");
+		String[][] input = {
+				{
+						"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/nate-sparkfun",
+						"hideProjectFiles" },
+				{
+						"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/seekerakos",
+						"hideProjectFiles" },
+				{
+						"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/seed studio",
+						"hideProjectFiles" },
+				{
+						"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/tzikis sketchbook",
+						"hideProjectFiles" }
 
-		redirectOutput();
+		};
 
-		SketchFinder.main(nateSparkfunInput);
+		String[] unsplitExpectedOutput = {
+				"Projects:\n> nate-sparkfun\n    > Alex Mouse\n        > Alex_Mouse\n    > Alpha_GPS_Clock\n    > AnnoyATron\n    > Battery_Tester\n        > Firmware\n            > Battery_Tester\n    > BigTime\n        > Firmware\n            > BigTime\n    > Boxing_Attendance\n    > ML8511_Breakout\n        > firmware\n            > MP8511_Read_Example\n    > MLX90620_Example\n        > MLX90620_alphaCalculator\n    > Money_Vacuum\n    > OpenLog\n        > firmware\n            > OpenLog_CommandTest\n            > OpenLog_ReadExample\n            > OpenLog_Test_Sketch\n            > OpenLog_Test_Sketch_Binary\n    > PicoDos\n        > firmware\n            > PicoDos\n    > SpeedBagCounter\n    > TopHat\n        > firmware\n            > TopHat_Basic\n    > Wimp_Weather_Station\n\n----------------------------------------------------------------------\n> libraries\n    readme.txt\n",
+				"Projects:\n> seekerakos\n    > receiver\n    > transimiter\n    > transmiter_ino\n\n----------------------------------------------------------------------\n> libraries\n    readme.txt",
+				"Projects:\n> seed studio\n\n----------------------------------------------------------------------\n> libraries\n    readme.txt",
+			    "Projects:\n> tzikis sketchbook\n\n----------------------------------------------------------------------\n> libraries\n    readme.txt" };
+		String[][] expected = new String[4][];
 
-		releaseOutput();
-
-		System.out.println();
-
-		String[] nateSparkfunActualOutput = redirectedOutputStream.toString()
-				.split("[\n\r]");
-
-		
-		
-		// Check the projects first.
-		boolean doneWithProjects = false;
-		int i = 0;
-
-		while (!doneWithProjects && i < nateSparkfunActualOutput.length) {
-			assertEquals(nateSparkfunExpectedOutput[i],
-					nateSparkfunActualOutput[i]);
-
-			doneWithProjects = nateSparkfunExpectedOutput[i]
-					.equals("----------------------------------------------------------------------");
-			i++;
+		for (int i = 0; i < unsplitExpectedOutput.length; i++) {
+			String[] temp = unsplitExpectedOutput[i].split("[\n\r]");
+			expected[i] = temp;
 		}
-		
-		//Then check the libraries.
-		
-		//TODO: check the libraries.
+
+		for (int i = 0; i < input.length; i++) {
+			redirectOutput();
+				
+			redirectedOutputStream.reset();
+			
+			SketchFinder.main(input[i]);
+
+			releaseOutput();
+			
+			String[] actualOutput = redirectedOutputStream.toString().split(
+					"[\n\r]");
+
+			// Check the projects first.
+			boolean doneWithProjects = false;
+			int j = 0;
+
+			while (!doneWithProjects && j < actualOutput.length){
+
+				assertEquals(expected[i][j], actualOutput[j]);
+
+				doneWithProjects = expected[i][j]
+						.equals("----------------------------------------------------------------------");
+				j++;
+			}
+
+			// Then check the libraries.
+
+			// TODO: check the libraries.
+		}
 	}
 }
