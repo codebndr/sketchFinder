@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class SketchFinderTest {
 	}
 
 	@Test
-	public void testMain() {
+	public void testMain() throws IOException {
 
 		// Test the Projects.
 		String[][] input = {
@@ -35,7 +36,19 @@ public class SketchFinderTest {
 						"hideProjectFiles" },
 				{
 						"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/tzikis sketchbook",
-						"hideProjectFiles" }
+						"hideProjectFiles" },
+                {
+                        "/Users/kevin/Dropbox/Github/sketchFinder/test_sketchbooks/nate-sparkfun",
+                        "hideProjectFiles" },
+                {
+                        "/Users/kevin/Dropbox/Github/sketchFinder/test_sketchbooks/seekerakos",
+                        "hideProjectFiles" },
+                {
+                        "/Users/kevin/Dropbox/Github/sketchFinder/test_sketchbooks/seed studio",
+                        "hideProjectFiles" },
+                {
+                        "/Users/kevin/Dropbox/Github/sketchFinder/test_sketchbooks/tzikis sketchbook",
+                        "hideProjectFiles" }
 
 		};
 

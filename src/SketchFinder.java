@@ -5,6 +5,7 @@
  */
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 public class SketchFinder {
 	
 	static FileTree tree; // Holds the files, when found.
+    static private LibraryList libraries;
+    static private List<File> librariesFolders;
 
 	// The values of user arguments, with default values.
 	static boolean help = false;
@@ -62,7 +65,7 @@ public class SketchFinder {
 	 * Looks through the given folder and returns a string representation of the
 	 * sketches and libraries therein.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		tree= new FileTree();
 
 		parse(args);
@@ -92,7 +95,7 @@ public class SketchFinder {
 			return;
 		}
 
-		FileTree libraries = null; // will hold the all the libraries.
+//		FileTree libraries = null; // will hold the all the libraries.
 
 		// iterate through the folder and look for more folders.
 		// Similar to getSketches(), but also looks for the libraries folder.
@@ -109,9 +112,9 @@ public class SketchFinder {
 				// if the subfolder name is libraries folder, get its libraries.
 				// like they do in the Arduino code, things in the libraries
 				// folders also count as projects.
-				if (f.getName().equalsIgnoreCase("libraries")) {
-					libraries = getLibraries(f);
-				}
+//				if (f.getName().equalsIgnoreCase("libraries")) {
+//					libraries = getLibraries(f);
+//				}
 
 				FileTree sub = getSketches(f);
 				if (sub != null) {
@@ -129,11 +132,13 @@ public class SketchFinder {
 		}
 		System.out.println();
 
-		if (libraries != null) {
-			System.out.println(libraries);
-		} else {
-			System.out.println("No libraries found");
-		}
+//		if (libraries != null) {
+//			System.out.println(libraries);
+//		} else {
+//			System.out.println("No libraries found");
+//		}
+        getLibraries(folder);
+        System.out.print(libraries);
 
 	}
 
@@ -201,12 +206,14 @@ public class SketchFinder {
 	 * Find the libraries in folder, which is much like getting sketches but has
 	 * different settings.
 	 */
-	private static FileTree getLibraries(File folder) {
-		inLibrary = true;
-		FileTree libraries = getSketches(folder);
-		inLibrary = false;
-		return libraries;
+	private static void getLibraries(File folder) throws IOException {
+        librariesFolders = new ArrayList<File>();
+        librariesFolders.add(new File(folder, "libraries"));
 
+//      Scan for libraries in each library folder.
+//      Libraries located in the latest folders on the list can override
+//      other libraries with the same name.
+        scanAndUpdateLibraries(librariesFolders);
 	}
 
 	/** File f is a pde file, or at least has that extension */
@@ -222,6 +229,37 @@ public class SketchFinder {
 		return name.substring(name.lastIndexOf('.') + 1)
 				.equalsIgnoreCase("ino");
 	}
+
+
+    //scan libraries folders recursively
+    static public void scanAndUpdateLibraries(List<File> folders) throws IOException {
+        libraries = scanLibraries(folders);
+    }
+
+    static public LibraryList scanLibraries(List<File> folders) throws IOException {
+        LibraryList res = new LibraryList();
+        for (File folder : folders)
+            res.addOrReplaceAll(scanLibraries(folder));
+        return res;
+    }
+
+    static public LibraryList scanLibraries(File folder) throws IOException {
+        LibraryList res = new LibraryList();
+
+        String list[] = folder.list(new OnlyDirs());
+        // if a bad folder or something like that, this might come back null
+        if (list == null)
+            return res;
+
+        for (String libName : list) {
+            File subfolder = new File(folder, libName);
+            Library lib = Library.create(subfolder);
+            // (also replace previously found libs with the same name)
+            if (lib != null)
+                res.addOrReplace(lib);
+        }
+        return res;
+    }
 
 	/**
 	 * A data structure for holding files and folders, used for both the
@@ -274,7 +312,7 @@ public class SketchFinder {
 		/**
 		 * A String representation of the FileTree. Assumes that the root is at
 		 * depth 0.
-		 * 
+		 *
 		 * Prints first the files in the folder, then all it's subfolders.
 		 */
 		@Override
@@ -285,7 +323,7 @@ public class SketchFinder {
 		/**
 		 * A String representation of the FileTree indented to the depth
 		 * specified by level.
-		 * 
+		 *
 		 * Prints first the files in the folder, then all it's subfolders.
 		 */
 		public String toString(int level) {
@@ -335,5 +373,5 @@ public class SketchFinder {
 			// Convert output into a string and return.
 			return output.toString();
 		}
-	}
+    }
 }
