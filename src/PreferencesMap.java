@@ -100,9 +100,9 @@ public class PreferencesMap extends LinkedHashMap<String, String> {
                 String key = line.substring(0, equals).trim();
                 String value = line.substring(equals + 1).trim();
 
-//                key = processPlatformSuffix(key, ".linux", OSUtils.isLinux());
-//                key = processPlatformSuffix(key, ".windows", OSUtils.isWindows());
-//                key = processPlatformSuffix(key, ".macosx", OSUtils.isMacOS());
+                key = processPlatformSuffix(key, ".linux", OSUtils.isLinux());
+                key = processPlatformSuffix(key, ".windows", OSUtils.isWindows());
+                key = processPlatformSuffix(key, ".macosx", OSUtils.isMacOS());
 
                 if (key != null)
                     put(key, value);

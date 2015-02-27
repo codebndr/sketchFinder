@@ -25,6 +25,7 @@ public class Library {
     private File folder;
     private boolean isLegacy;
 
+    //do we need this? is it relevant to GUI?
     private enum LibraryLayout { FLAT, RECURSIVE };
     private LibraryLayout layout;
 
