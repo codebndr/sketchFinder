@@ -46,6 +46,7 @@ public class Library {
      * @param libFolder
      * @return
      */
+
     static public Library create(File libFolder) throws IOException {
         // A library is considered "new" if it contains a file called
         // "library.properties"
