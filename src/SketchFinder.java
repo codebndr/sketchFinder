@@ -5,6 +5,7 @@
  */
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,6 +16,7 @@ public class SketchFinder {
 	static FileTree tree; // Holds the files, when found.
     static private LibraryList libraries;
     static private List<File> librariesFolders;
+	static private File sketchFolder;
 
 	// The values of user arguments, with default values.
 	static boolean help = false;
@@ -43,6 +45,7 @@ public class SketchFinder {
 
 			// Add the root to the tree.
 			tree.addRoot(new File(args[0]));
+			sketchFolder = new File(args[0]);
 
 			// Parse all the user options.
 			for (int i = 1; i < args.length; i++) {
@@ -260,6 +263,137 @@ public class SketchFinder {
         }
         return res;
     }
+
+	/**
+	 * The method to deal with importing .zip library
+	 */
+
+	public void handleAddLibrary(String path) {
+
+		File sourceFile = new File(path);
+		File tmpFolder = null;
+
+		try {
+			// unpack ZIP
+			if (!sourceFile.isDirectory()) {
+				try {
+					tmpFolder = FileUtils.createTempFolder();
+					ZipDeflater zipDeflater = new ZipDeflater(sourceFile, tmpFolder);
+					zipDeflater.deflate();
+					File[] foldersInTmpFolder = tmpFolder.listFiles(new OnlyDirs());
+					if (foldersInTmpFolder.length != 1) {
+						throw new IOException("Zip doesn't contain a library");
+					}
+					sourceFile = foldersInTmpFolder[0];
+				} catch (IOException e) {
+					System.out.println(e);
+					return;
+				}
+			}
+
+			// is there a valid library?
+			File libFolder = sourceFile;
+			String libName = libFolder.getName();
+			if (!isSanitaryName(libName)) {
+				String mess = "The library \"{0}\" cannot be used.\n"
+								+ "Library names must contain only basic letters and numbers.\n"
+								+ "(ASCII only and no spaces, and it cannot start with a number)";
+				System.out.println(mess);
+				return;
+			}
+
+			// copy folder
+			File destinationFolder = new File(getSketchbookLibrariesFolder(), sourceFile.getName());
+			if (!destinationFolder.mkdir()) {
+				System.out.printf("A library named {0} already exists", sourceFile.getName());
+				return;
+			}
+			try {
+				FileUtils.copy(sourceFile, destinationFolder);
+			} catch (IOException e) {
+				System.out.println(e);
+				return;
+			}
+			System.out.println("Library added to your libraries. Check \"Include library\" menu");
+		} finally {
+			// delete zip created temp folder, if exists
+			FileUtils.recursiveDelete(tmpFolder);
+		}
+	}
+
+
+	static public File getSketchbookLibrariesFolder() {
+		File libdir = new File(sketchFolder, "libraries");
+		if (!libdir.exists()) {
+			try {
+				libdir.mkdirs();
+				File readme = new File(libdir, "readme.txt");
+				FileWriter freadme = new FileWriter(readme);
+				freadme.write("For information on installing libraries, see: " +
+						"http://arduino.cc/en/Guide/Libraries\n");
+				freadme.close();
+			} catch (Exception e) {
+			}
+		}
+		return libdir;
+	}
+
+
+	/**
+	 * Return true if the name is valid for a Processing sketch.
+	 */
+	static public boolean isSanitaryName(String name) {
+		return sanitizeName(name).equals(name);
+	}
+
+
+	/**
+	 * Produce a sanitized name that fits our standards for likely to work.
+	 * <p/>
+	 * Java classes have a wider range of names that are technically allowed
+	 * (supposedly any Unicode name) than what we support. The reason for
+	 * going more narrow is to avoid situations with text encodings and
+	 * converting during the process of moving files between operating
+	 * systems, i.e. uploading from a Windows machine to a Linux server,
+	 * or reading a FAT32 partition in OS X and using a thumb drive.
+	 * <p/>
+	 * This helper function replaces everything but A-Z, a-z, and 0-9 with
+	 * underscores. Also disallows starting the sketch name with a digit.
+	 */
+	static public String sanitizeName(String origName) {
+		char c[] = origName.toCharArray();
+		StringBuffer buffer = new StringBuffer();
+
+		// can't lead with a digit, so start with an underscore
+		if ((c[0] >= '0') && (c[0] <= '9')) {
+			buffer.append('_');
+		}
+		for (int i = 0; i < c.length; i++) {
+			if (((c[i] >= '0') && (c[i] <= '9')) ||
+					((c[i] >= 'a') && (c[i] <= 'z')) ||
+					((c[i] >= 'A') && (c[i] <= 'Z')) ||
+					((i > 0) && (c[i] == '-')) ||
+					((i > 0) && (c[i] == '.'))) {
+				buffer.append(c[i]);
+			} else {
+				buffer.append('_');
+			}
+		}
+		// let's not be ridiculous about the length of filenames.
+		// in fact, Mac OS 9 can handle 255 chars, though it can't really
+		// deal with filenames longer than 31 chars in the Finder.
+		// but limiting to that for sketches would mean setting the
+		// upper-bound on the character limit here to 25 characters
+		// (to handle the base name + ".class")
+		if (buffer.length() > 63) {
+			buffer.setLength(63);
+		}
+		return buffer.toString();
+	}
+
+
+
+
 
 	/**
 	 * A data structure for holding files and folders, used for both the
