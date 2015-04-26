@@ -65,6 +65,21 @@ public class SketchFinder {
 	}
 
 	/**
+     * set the sketch folder
+	 */
+    public void setSketchFolder(String path){
+        File sketchFolder = new File(path);
+        if (!sketchFolder.exists()){
+            System.out.println("The sketch folder doesn't exsit!!!");
+            return;
+        }
+        if (!sketchFolder.isDirectory()){
+            System.out.println("The sketch folder is not a directory!!!");
+        }
+        this.sketchFolder = sketchFolder;
+    }
+
+	/**
 	 * Looks through the given folder and returns a string representation of the
 	 * sketches and libraries therein.
 	 */
