@@ -20,11 +20,13 @@ public class SketchFinder {
 
 	// The values of user arguments, with default values.
 	static boolean help = false;
+    static boolean importZipLib = false;
 	static boolean useExtensions = true;
 	static boolean showProjectFiles = false;
 	static boolean showLibraryFiles = true;
 	static boolean showHiddenFiles = false;
 	static boolean showUnderscoreFiles = false;
+
 
 	// Tracks whether the program is looking through the library. If so, handles
 	// files differently.
@@ -41,7 +43,11 @@ public class SketchFinder {
 			// If a help argument or no argument is specified, calls for the
 			// help menu.
 			help = true;
-		} else { // start the tree and parse the rest of the arguments.
+		}
+        else if(args[0].equals("-import")){
+            importZipLib = true;
+        }
+        else { // start the tree and parse the rest of the arguments.
 
 			// Add the root to the tree.
 			tree.addRoot(new File(args[0]));
@@ -67,16 +73,16 @@ public class SketchFinder {
 	/**
      * set the sketch folder
 	 */
-    public void setSketchFolder(String path){
-        File sketchFolder = new File(path);
-        if (!sketchFolder.exists()){
+    public static void setSketchFolder(String path){
+        File sketchFolderTmp = new File(path);
+        if (!sketchFolderTmp.exists()){
             System.out.println("The sketch folder doesn't exsit!!!");
             return;
         }
-        if (!sketchFolder.isDirectory()){
+        if (!sketchFolderTmp.isDirectory()){
             System.out.println("The sketch folder is not a directory!!!");
         }
-        this.sketchFolder = sketchFolder;
+        sketchFolder = sketchFolderTmp;
     }
 
 	/**
@@ -100,6 +106,13 @@ public class SketchFinder {
 			// message.
 			return;
 		}
+        if (importZipLib){
+            String zipPath = args[1];
+            String sketchPath = args[2];
+            setSketchFolder(sketchPath);
+            handleAddLibrary(zipPath);
+            return;
+        }
 
 		File folder = tree.getRoot();
 
@@ -150,13 +163,8 @@ public class SketchFinder {
 		}
 		System.out.println();
 
-//		if (libraries != null) {
-//			System.out.println(libraries);
-//		} else {
-//			System.out.println("No libraries found");
-//		}
+        //add the libraries to the librarylist
         getLibraries(folder);
-        System.out.print(libraries);
 
 	}
 
@@ -283,7 +291,7 @@ public class SketchFinder {
 	 * The method to deal with importing .zip library
 	 */
 
-	public void handleAddLibrary(String path) {
+	static public void handleAddLibrary(String path) {
 
 		File sourceFile = new File(path);
 		File tmpFolder = null;
