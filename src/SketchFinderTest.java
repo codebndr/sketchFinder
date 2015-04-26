@@ -7,6 +7,8 @@ import java.io.PrintStream;
 import org.junit.Test;
 
 public class SketchFinderTest {
+	// Change this to wherever your folder may be.
+	private static final String currentLocation= "/home/waldo/Documents/codebender/SketchFinder/";
 
 	private final ByteArrayOutputStream redirectedOutputStream = new ByteArrayOutputStream();
 
@@ -22,33 +24,21 @@ public class SketchFinderTest {
 
 	@Test
 	public void testMain() throws IOException {
-
+	
 		// Test the Projects.
 		String[][] input = {
 				{
-						"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/nate-sparkfun",
+						currentLocation + "test_sketchbooks/nate-sparkfun",
 						"hideProjectFiles" },
 				{
-						"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/seekerakos",
+							currentLocation + "test_sketchbooks/seekerakos",
 						"hideProjectFiles" },
 				{
-						"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/seed studio",
+							currentLocation + "test_sketchbooks/seed studio",
 						"hideProjectFiles" },
 				{
-						"/home/waldo/Documents/codebender/sketchFinder/test_sketchbooks/tzikis sketchbook",
+							currentLocation + "test_sketchbooks/tzikis sketchbook",
 						"hideProjectFiles" },
-                {
-                        "/Users/kevin/Dropbox/Github/sketchFinder/test_sketchbooks/nate-sparkfun",
-                        "hideProjectFiles" },
-                {
-                        "/Users/kevin/Dropbox/Github/sketchFinder/test_sketchbooks/seekerakos",
-                        "hideProjectFiles" },
-                {
-                        "/Users/kevin/Dropbox/Github/sketchFinder/test_sketchbooks/seed studio",
-                        "hideProjectFiles" },
-                {
-                        "/Users/kevin/Dropbox/Github/sketchFinder/test_sketchbooks/tzikis sketchbook",
-                        "hideProjectFiles" }
 
 		};
 
@@ -81,9 +71,13 @@ public class SketchFinderTest {
 			int j = 0;
 
 			while (!doneWithProjects && j < actualOutput.length){
+				
+				System.out.println(expected[i][j]);
+				System.out.println(actualOutput[j]);
 
 				assertEquals(expected[i][j], actualOutput[j]);
-
+				System.out.println(actualOutput[j]);
+				
 				doneWithProjects = expected[i][j]
 						.equals("----------------------------------------------------------------------");
 				j++;
