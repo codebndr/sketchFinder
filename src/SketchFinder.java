@@ -1,7 +1,8 @@
 /** 
  * @author Wen Zhu, Waldo Withers E-mail: wz246@cornell.edu ldw48@cornell.edu
- * @version ：Feb 1, 2015 10:43:45 AM 
- * Description: This program is to find the projects and libraries in the sketch folder
+ * @author Thodoris Bais | Email: thodoris.bais@gmail.com | Website: thodorisbais.com
+ * 
+ * Description: JSON format of included projects and libraries in the sketch folder.
  */
 
 import java.io.File;
@@ -508,23 +509,44 @@ public class SketchFinder {
 			}
 
 			// Shall contain all the output in a format easy to add onto.
-			StringBuffer output = new StringBuffer("> " + folder.getName()
-					+ "\n");
+			StringBuffer output = new StringBuffer();
+
+			boolean hasSubfolders = false;
+			if (subfolders.size() > 0) {
+				hasSubfolders = true;
+			}
+			if (hasSubfolders) {
+				// Shall contain all the output in a format easy to add onto.
+				output.append("{\"" + folder.getName() + "\"");
+			} else {
+				// Shall contain all the output in a format easy to add onto.
+				output.append("\"" + folder.getName() + "\"");
+			}
 
 			// Include all the files in the folder.
 			for (File f : files) {
 				if (useExtensions) { // Include extensions.
 					output.append(indentation).append(f.getName()).append("\n");
 				} else { // Hide the extensions.
-					output.append(indentation)
-							.append(f.getName().substring(0,
-									f.getName().lastIndexOf("."))).append("\n");
+					output.append(indentation).append(f.getName().substring(0, f.getName().lastIndexOf(".")))
+							.append("\n");
 				}
 			}
 
 			// Include all the subfiles.
+			boolean hasSubfiles = false;
+			output.append(": [");
 			for (FileTree sub : subfolders) {
-				output.append(indentation).append(sub.toString(level));
+				output.append(sub.toString(level));
+				output.append(",");
+				hasSubfiles = true;
+			}
+			if (hasSubfiles) {
+				output.setLength(output.length() - 1);
+				output.append("]");
+				output.append("}\n");
+			} else {
+				output.setLength(output.length() - 3);
 			}
 
 			// Convert output into a string and return.
