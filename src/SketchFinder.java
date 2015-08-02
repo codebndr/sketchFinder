@@ -1,10 +1,12 @@
 /** 
  * @author Wen Zhu, Waldo Withers E-mail: wz246@cornell.edu ldw48@cornell.edu
- * @version ：Feb 1, 2015 10:43:45 AM 
- * Description: This program is to find the projects and libraries in the sketch folder
+ * @author Thodoris Bais | Email: thodoris.bais@gmail.com | Website: thodorisbais.com
+ * 
+ * Description: JSON format of included projects and libraries in the sketch folder.
  */
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,14 +17,17 @@ public class SketchFinder {
 	static FileTree tree; // Holds the files, when found.
     static private LibraryList libraries;
     static private List<File> librariesFolders;
+	static private File sketchFolder;
 
 	// The values of user arguments, with default values.
 	static boolean help = false;
+    static boolean importZipLib = false;
 	static boolean useExtensions = true;
 	static boolean showProjectFiles = false;
 	static boolean showLibraryFiles = true;
 	static boolean showHiddenFiles = false;
 	static boolean showUnderscoreFiles = false;
+
 
 	// Tracks whether the program is looking through the library. If so, handles
 	// files differently.
@@ -39,10 +44,15 @@ public class SketchFinder {
 			// If a help argument or no argument is specified, calls for the
 			// help menu.
 			help = true;
-		} else { // start the tree and parse the rest of the arguments.
+		}
+        else if(args[0].equals("-import")){
+            importZipLib = true;
+        }
+        else { // start the tree and parse the rest of the arguments.
 
 			// Add the root to the tree.
 			tree.addRoot(new File(args[0]));
+			sketchFolder = new File(args[0]);
 
 			// Parse all the user options.
 			for (int i = 1; i < args.length; i++) {
@@ -60,6 +70,21 @@ public class SketchFinder {
 			}
 		}
 	}
+
+	/**
+     * set the sketch folder
+	 */
+    public static void setSketchFolder(String path){
+        File sketchFolderTmp = new File(path);
+        if (!sketchFolderTmp.exists()){
+            System.out.println("The sketch folder doesn't exsit!!!");
+            return;
+        }
+        if (!sketchFolderTmp.isDirectory()){
+            System.out.println("The sketch folder is not a directory!!!");
+        }
+        sketchFolder = sketchFolderTmp;
+    }
 
 	/**
 	 * Looks through the given folder and returns a string representation of the
@@ -82,6 +107,13 @@ public class SketchFinder {
 			// message.
 			return;
 		}
+        if (importZipLib){
+            String zipPath = args[1];
+            String sketchPath = args[2];
+            setSketchFolder(sketchPath);
+            handleAddLibrary(zipPath);
+            return;
+        }
 
 		File folder = tree.getRoot();
 
@@ -132,13 +164,8 @@ public class SketchFinder {
 		}
 		System.out.println();
 
-//		if (libraries != null) {
-//			System.out.println(libraries);
-//		} else {
-//			System.out.println("No libraries found");
-//		}
+        //add the libraries to the librarylist
         getLibraries(folder);
-        System.out.print(libraries);
 
 	}
 
@@ -262,6 +289,137 @@ public class SketchFinder {
     }
 
 	/**
+	 * The method to deal with importing .zip library
+	 */
+
+	static public void handleAddLibrary(String path) {
+
+		File sourceFile = new File(path);
+		File tmpFolder = null;
+
+		try {
+			// unpack ZIP
+			if (!sourceFile.isDirectory()) {
+				try {
+					tmpFolder = FileUtils.createTempFolder();
+					ZipDeflater zipDeflater = new ZipDeflater(sourceFile, tmpFolder);
+					zipDeflater.deflate();
+					File[] foldersInTmpFolder = tmpFolder.listFiles(new OnlyDirs());
+					if (foldersInTmpFolder.length != 1) {
+						throw new IOException("Zip doesn't contain a library");
+					}
+					sourceFile = foldersInTmpFolder[0];
+				} catch (IOException e) {
+					System.out.println(e);
+					return;
+				}
+			}
+
+			// is there a valid library?
+			File libFolder = sourceFile;
+			String libName = libFolder.getName();
+			if (!isSanitaryName(libName)) {
+				String mess = "The library \"{0}\" cannot be used.\n"
+								+ "Library names must contain only basic letters and numbers.\n"
+								+ "(ASCII only and no spaces, and it cannot start with a number)";
+				System.out.println(mess);
+				return;
+			}
+
+			// copy folder
+			File destinationFolder = new File(getSketchbookLibrariesFolder(), sourceFile.getName());
+			if (!destinationFolder.mkdir()) {
+				System.out.printf("A library named {0} already exists", sourceFile.getName());
+				return;
+			}
+			try {
+				FileUtils.copy(sourceFile, destinationFolder);
+			} catch (IOException e) {
+				System.out.println(e);
+				return;
+			}
+			System.out.println("Library added to your libraries. Check \"Include library\" menu");
+		} finally {
+			// delete zip created temp folder, if exists
+			FileUtils.recursiveDelete(tmpFolder);
+		}
+	}
+
+
+	static public File getSketchbookLibrariesFolder() {
+		File libdir = new File(sketchFolder, "libraries");
+		if (!libdir.exists()) {
+			try {
+				libdir.mkdirs();
+				File readme = new File(libdir, "readme.txt");
+				FileWriter freadme = new FileWriter(readme);
+				freadme.write("For information on installing libraries, see: " +
+						"http://arduino.cc/en/Guide/Libraries\n");
+				freadme.close();
+			} catch (Exception e) {
+			}
+		}
+		return libdir;
+	}
+
+
+	/**
+	 * Return true if the name is valid for a Processing sketch.
+	 */
+	static public boolean isSanitaryName(String name) {
+		return sanitizeName(name).equals(name);
+	}
+
+
+	/**
+	 * Produce a sanitized name that fits our standards for likely to work.
+	 * <p/>
+	 * Java classes have a wider range of names that are technically allowed
+	 * (supposedly any Unicode name) than what we support. The reason for
+	 * going more narrow is to avoid situations with text encodings and
+	 * converting during the process of moving files between operating
+	 * systems, i.e. uploading from a Windows machine to a Linux server,
+	 * or reading a FAT32 partition in OS X and using a thumb drive.
+	 * <p/>
+	 * This helper function replaces everything but A-Z, a-z, and 0-9 with
+	 * underscores. Also disallows starting the sketch name with a digit.
+	 */
+	static public String sanitizeName(String origName) {
+		char c[] = origName.toCharArray();
+		StringBuffer buffer = new StringBuffer();
+
+		// can't lead with a digit, so start with an underscore
+		if ((c[0] >= '0') && (c[0] <= '9')) {
+			buffer.append('_');
+		}
+		for (int i = 0; i < c.length; i++) {
+			if (((c[i] >= '0') && (c[i] <= '9')) ||
+					((c[i] >= 'a') && (c[i] <= 'z')) ||
+					((c[i] >= 'A') && (c[i] <= 'Z')) ||
+					((i > 0) && (c[i] == '-')) ||
+					((i > 0) && (c[i] == '.'))) {
+				buffer.append(c[i]);
+			} else {
+				buffer.append('_');
+			}
+		}
+		// let's not be ridiculous about the length of filenames.
+		// in fact, Mac OS 9 can handle 255 chars, though it can't really
+		// deal with filenames longer than 31 chars in the Finder.
+		// but limiting to that for sketches would mean setting the
+		// upper-bound on the character limit here to 25 characters
+		// (to handle the base name + ".class")
+		if (buffer.length() > 63) {
+			buffer.setLength(63);
+		}
+		return buffer.toString();
+	}
+
+
+
+
+
+	/**
 	 * A data structure for holding files and folders, used for both the
 	 * libraries and the projects. Includes a toString() which prints it as a
 	 * tree with indented hierarchy.
@@ -351,23 +509,44 @@ public class SketchFinder {
 			}
 
 			// Shall contain all the output in a format easy to add onto.
-			StringBuffer output = new StringBuffer("> " + folder.getName()
-					+ "\n");
+			StringBuffer output = new StringBuffer();
+
+			boolean hasSubfolders = false;
+			if (subfolders.size() > 0) {
+				hasSubfolders = true;
+			}
+			if (hasSubfolders) {
+				// Shall contain all the output in a format easy to add onto.
+				output.append("{\"" + folder.getName() + "\"");
+			} else {
+				// Shall contain all the output in a format easy to add onto.
+				output.append("\"" + folder.getName() + "\"");
+			}
 
 			// Include all the files in the folder.
 			for (File f : files) {
 				if (useExtensions) { // Include extensions.
 					output.append(indentation).append(f.getName()).append("\n");
 				} else { // Hide the extensions.
-					output.append(indentation)
-							.append(f.getName().substring(0,
-									f.getName().lastIndexOf("."))).append("\n");
+					output.append(indentation).append(f.getName().substring(0, f.getName().lastIndexOf(".")))
+							.append("\n");
 				}
 			}
 
 			// Include all the subfiles.
+			boolean hasSubfiles = false;
+			output.append(": [");
 			for (FileTree sub : subfolders) {
-				output.append(indentation).append(sub.toString(level));
+				output.append(sub.toString(level));
+				output.append(",");
+				hasSubfiles = true;
+			}
+			if (hasSubfiles) {
+				output.setLength(output.length() - 1);
+				output.append("]");
+				output.append("}\n");
+			} else {
+				output.setLength(output.length() - 3);
 			}
 
 			// Convert output into a string and return.
