@@ -13,21 +13,20 @@ import java.util.Comparator;
 import java.util.List;
 
 public class SketchFinder {
-	
+
 	static FileTree tree; // Holds the files, when found.
-    static private LibraryList libraries;
-    static private List<File> librariesFolders;
+	static private LibraryList libraries;
+	static private List<File> librariesFolders;
 	static private File sketchFolder;
 
 	// The values of user arguments, with default values.
 	static boolean help = false;
-    static boolean importZipLib = false;
+	static boolean importZipLib = false;
 	static boolean useExtensions = true;
 	static boolean showProjectFiles = false;
 	static boolean showLibraryFiles = true;
 	static boolean showHiddenFiles = false;
 	static boolean showUnderscoreFiles = false;
-
 
 	// Tracks whether the program is looking through the library. If so, handles
 	// files differently.
@@ -38,17 +37,14 @@ public class SketchFinder {
 	 * the file name.
 	 */
 	static private void parse(String[] args) {
-		if (args == null || args.length == 0 || args[0].equals("--help")
-				|| args[0].equals("-help") || args[0].equals("-h")
-				|| args[0].equals("--h")) {
+		if (args == null || args.length == 0 || args[0].equals("--help") || args[0].equals("-help")
+				|| args[0].equals("-h") || args[0].equals("--h")) {
 			// If a help argument or no argument is specified, calls for the
 			// help menu.
 			help = true;
-		}
-        else if(args[0].equals("-import")){
-            importZipLib = true;
-        }
-        else { // start the tree and parse the rest of the arguments.
+		} else if (args[0].equals("-import")) {
+			importZipLib = true;
+		} else { // start the tree and parse the rest of the arguments.
 
 			// Add the root to the tree.
 			tree.addRoot(new File(args[0]));
@@ -72,48 +68,45 @@ public class SketchFinder {
 	}
 
 	/**
-     * set the sketch folder
+	 * set the sketch folder
 	 */
-    public static void setSketchFolder(String path){
-        File sketchFolderTmp = new File(path);
-        if (!sketchFolderTmp.exists()){
-            System.out.println("The sketch folder doesn't exsit!!!");
-            return;
-        }
-        if (!sketchFolderTmp.isDirectory()){
-            System.out.println("The sketch folder is not a directory!!!");
-        }
-        sketchFolder = sketchFolderTmp;
-    }
+	public static void setSketchFolder(String path) {
+		File sketchFolderTmp = new File(path);
+		if (!sketchFolderTmp.exists()) {
+			System.out.println("The sketch folder doesn't exsit!!!");
+			return;
+		}
+		if (!sketchFolderTmp.isDirectory()) {
+			System.out.println("The sketch folder is not a directory!!!");
+		}
+		sketchFolder = sketchFolderTmp;
+	}
 
 	/**
 	 * Looks through the given folder and returns a string representation of the
 	 * sketches and libraries therein.
 	 */
 	public static void main(String[] args) throws IOException {
-		tree= new FileTree();
+		tree = new FileTree();
 
 		parse(args);
 
 		if (help) {
-			System.out
-					.print("usage: sketchFinder [-h --h --help -help] filepath [options] \n"
-							+ "options include: \n"
-							+ "   hideExtensions \n"
-							+ "   showProjectFiles \n"
-							+ "   hideLibraryFiles \n"
-							+ "   showHiddenFiles \n"
-							+ "   showUnderscoreFiles \n"); // TODO: Get help
+			System.out.print("usage: sketchFinder [-h --h --help -help] filepath [options] \n" + "options include: \n"
+					+ "   hideExtensions \n" + "   showProjectFiles \n" + "   hideLibraryFiles \n"
+					+ "   showHiddenFiles \n" + "   showUnderscoreFiles \n"); // TODO:
+																				// Get
+																				// help
 			// message.
 			return;
 		}
-        if (importZipLib){
-            String zipPath = args[1];
-            String sketchPath = args[2];
-            setSketchFolder(sketchPath);
-            handleAddLibrary(zipPath);
-            return;
-        }
+		if (importZipLib) {
+			String zipPath = args[1];
+			String sketchPath = args[2];
+			setSketchFolder(sketchPath);
+			handleAddLibrary(zipPath);
+			return;
+		}
 
 		File folder = tree.getRoot();
 
@@ -127,7 +120,7 @@ public class SketchFinder {
 			return;
 		}
 
-//		FileTree libraries = null; // will hold the all the libraries.
+		// FileTree libraries = null; // will hold the all the libraries.
 
 		// iterate through the folder and look for more folders.
 		// Similar to getSketches(), but also looks for the libraries folder.
@@ -144,9 +137,9 @@ public class SketchFinder {
 				// if the subfolder name is libraries folder, get its libraries.
 				// like they do in the Arduino code, things in the libraries
 				// folders also count as projects.
-//				if (f.getName().equalsIgnoreCase("libraries")) {
-//					libraries = getLibraries(f);
-//				}
+				// if (f.getName().equalsIgnoreCase("libraries")) {
+				// libraries = getLibraries(f);
+				// }
 
 				FileTree sub = getSketches(f);
 				if (sub != null) {
@@ -164,8 +157,8 @@ public class SketchFinder {
 		}
 		System.out.println();
 
-        //add the libraries to the librarylist
-        getLibraries(folder);
+		// add the libraries to the librarylist
+		getLibraries(folder);
 
 	}
 
@@ -203,10 +196,10 @@ public class SketchFinder {
 
 			// don't create an extra subfolder for a folder named "examples"
 			if (f.getName().equals("examples")) {
-				
+
 				boolean hasStuff = false;
 				for (File f2 : f.listFiles()) {
-					hasStuff = processFiles(f2,tree2);
+					hasStuff = processFiles(f2, tree2);
 				}
 				return hasStuff;
 			}
@@ -234,59 +227,56 @@ public class SketchFinder {
 	 * different settings.
 	 */
 	private static void getLibraries(File folder) throws IOException {
-        librariesFolders = new ArrayList<File>();
-        librariesFolders.add(new File(folder, "libraries"));
+		librariesFolders = new ArrayList<File>();
+		librariesFolders.add(new File(folder, "libraries"));
 
-//      Scan for libraries in each library folder.
-//      Libraries located in the latest folders on the list can override
-//      other libraries with the same name.
-        scanAndUpdateLibraries(librariesFolders);
+		// Scan for libraries in each library folder.
+		// Libraries located in the latest folders on the list can override
+		// other libraries with the same name.
+		scanAndUpdateLibraries(librariesFolders);
 	}
 
 	/** File f is a pde file, or at least has that extension */
 	private static boolean isPde(File f) {
 		String name = f.getName();
-		return name.substring(name.lastIndexOf('.') + 1)
-				.equalsIgnoreCase("pde");
+		return name.substring(name.lastIndexOf('.') + 1).equalsIgnoreCase("pde");
 	}
 
 	/** File f is an ino file, or at least has that extension */
 	private static boolean isIno(File f) {
 		String name = f.getName();
-		return name.substring(name.lastIndexOf('.') + 1)
-				.equalsIgnoreCase("ino");
+		return name.substring(name.lastIndexOf('.') + 1).equalsIgnoreCase("ino");
 	}
 
+	// scan libraries folders recursively
+	static public void scanAndUpdateLibraries(List<File> folders) throws IOException {
+		libraries = scanLibraries(folders);
+	}
 
-    //scan libraries folders recursively
-    static public void scanAndUpdateLibraries(List<File> folders) throws IOException {
-        libraries = scanLibraries(folders);
-    }
+	static public LibraryList scanLibraries(List<File> folders) throws IOException {
+		LibraryList res = new LibraryList();
+		for (File folder : folders)
+			res.addOrReplaceAll(scanLibraries(folder));
+		return res;
+	}
 
-    static public LibraryList scanLibraries(List<File> folders) throws IOException {
-        LibraryList res = new LibraryList();
-        for (File folder : folders)
-            res.addOrReplaceAll(scanLibraries(folder));
-        return res;
-    }
+	static public LibraryList scanLibraries(File folder) throws IOException {
+		LibraryList res = new LibraryList();
 
-    static public LibraryList scanLibraries(File folder) throws IOException {
-        LibraryList res = new LibraryList();
+		String list[] = folder.list(new OnlyDirs());
+		// if a bad folder or something like that, this might come back null
+		if (list == null)
+			return res;
 
-        String list[] = folder.list(new OnlyDirs());
-        // if a bad folder or something like that, this might come back null
-        if (list == null)
-            return res;
-
-        for (String libName : list) {
-            File subfolder = new File(folder, libName);
-            Library lib = Library.create(subfolder);
-            // (also replace previously found libs with the same name)
-            if (lib != null)
-                res.addOrReplace(lib);
-        }
-        return res;
-    }
+		for (String libName : list) {
+			File subfolder = new File(folder, libName);
+			Library lib = Library.create(subfolder);
+			// (also replace previously found libs with the same name)
+			if (lib != null)
+				res.addOrReplace(lib);
+		}
+		return res;
+	}
 
 	/**
 	 * The method to deal with importing .zip library
@@ -320,8 +310,8 @@ public class SketchFinder {
 			String libName = libFolder.getName();
 			if (!isSanitaryName(libName)) {
 				String mess = "The library \"{0}\" cannot be used.\n"
-								+ "Library names must contain only basic letters and numbers.\n"
-								+ "(ASCII only and no spaces, and it cannot start with a number)";
+						+ "Library names must contain only basic letters and numbers.\n"
+						+ "(ASCII only and no spaces, and it cannot start with a number)";
 				System.out.println(mess);
 				return;
 			}
@@ -345,7 +335,6 @@ public class SketchFinder {
 		}
 	}
 
-
 	static public File getSketchbookLibrariesFolder() {
 		File libdir = new File(sketchFolder, "libraries");
 		if (!libdir.exists()) {
@@ -353,15 +342,14 @@ public class SketchFinder {
 				libdir.mkdirs();
 				File readme = new File(libdir, "readme.txt");
 				FileWriter freadme = new FileWriter(readme);
-				freadme.write("For information on installing libraries, see: " +
-						"http://arduino.cc/en/Guide/Libraries\n");
+				freadme.write("For information on installing libraries, see: "
+						+ "http://arduino.cc/en/Guide/Libraries\n");
 				freadme.close();
 			} catch (Exception e) {
 			}
 		}
 		return libdir;
 	}
-
 
 	/**
 	 * Return true if the name is valid for a Processing sketch.
@@ -370,16 +358,15 @@ public class SketchFinder {
 		return sanitizeName(name).equals(name);
 	}
 
-
 	/**
 	 * Produce a sanitized name that fits our standards for likely to work.
 	 * <p/>
 	 * Java classes have a wider range of names that are technically allowed
-	 * (supposedly any Unicode name) than what we support. The reason for
-	 * going more narrow is to avoid situations with text encodings and
-	 * converting during the process of moving files between operating
-	 * systems, i.e. uploading from a Windows machine to a Linux server,
-	 * or reading a FAT32 partition in OS X and using a thumb drive.
+	 * (supposedly any Unicode name) than what we support. The reason for going
+	 * more narrow is to avoid situations with text encodings and converting
+	 * during the process of moving files between operating systems, i.e.
+	 * uploading from a Windows machine to a Linux server, or reading a FAT32
+	 * partition in OS X and using a thumb drive.
 	 * <p/>
 	 * This helper function replaces everything but A-Z, a-z, and 0-9 with
 	 * underscores. Also disallows starting the sketch name with a digit.
@@ -393,11 +380,8 @@ public class SketchFinder {
 			buffer.append('_');
 		}
 		for (int i = 0; i < c.length; i++) {
-			if (((c[i] >= '0') && (c[i] <= '9')) ||
-					((c[i] >= 'a') && (c[i] <= 'z')) ||
-					((c[i] >= 'A') && (c[i] <= 'Z')) ||
-					((i > 0) && (c[i] == '-')) ||
-					((i > 0) && (c[i] == '.'))) {
+			if (((c[i] >= '0') && (c[i] <= '9')) || ((c[i] >= 'a') && (c[i] <= 'z'))
+					|| ((c[i] >= 'A') && (c[i] <= 'Z')) || ((i > 0) && (c[i] == '-')) || ((i > 0) && (c[i] == '.'))) {
 				buffer.append(c[i]);
 			} else {
 				buffer.append('_');
@@ -414,10 +398,6 @@ public class SketchFinder {
 		}
 		return buffer.toString();
 	}
-
-
-
-
 
 	/**
 	 * A data structure for holding files and folders, used for both the
@@ -485,7 +465,6 @@ public class SketchFinder {
 		 * Prints first the files in the folder, then all it's subfolders.
 		 */
 		public String toString(int level) {
-
 			/* Increment the level variable for the indentation-building loop
 			   and to pass on to the toString functions of the subtrees. */
 			String indentation = "";
@@ -495,11 +474,11 @@ public class SketchFinder {
 			level++;
 			
 			// Shall contain all the output in a format easy to add onto.
-			StringBuffer output = new StringBuffer("");
+			StringBuilder output = new StringBuilder();
 				
 			// Shall contain all the output in a format easy to add onto.
 			output.append(indentation).append("{\"" + folder.getName()
-					+ "\": [ \n ");
+					+ "\": [ \n");
 
 			// Include all the files in the folder.
 			for (File f : files) {
@@ -526,5 +505,5 @@ public class SketchFinder {
 			// Convert output into a string and return.
 			return output.toString();
 		}
-    }
+	}
 }
