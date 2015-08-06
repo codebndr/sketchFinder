@@ -1,7 +1,8 @@
 /** 
  * @author Wen Zhu, Waldo Withers E-mail: wz246@cornell.edu ldw48@cornell.edu
- * @version ：Feb 1, 2015 10:43:45 AM 
- * Description: This program is to find the projects and libraries in the sketch folder
+ * @author Thodoris Bais | Email: thodoris.bais@gmail.com | Website: thodorisbais.com
+ * 
+ * Description: JSON format of included projects and libraries in the sketch folder
  */
 
 import java.io.File;
@@ -327,49 +328,43 @@ public class SketchFinder {
 		 * Prints first the files in the folder, then all it's subfolders.
 		 */
 		public String toString(int level) {
-			// Sort the files and subfolders.
-			files.sort(new Comparator<File>() {
-				@Override
-				public int compare(File file, File file2) {
-					return file.getName().compareToIgnoreCase(file2.getName());
-				}
-			});
-			subfolders.sort(new Comparator<FileTree>() {
-				@Override
-				public int compare(FileTree ft, FileTree ft2) {
-					return ft.folder.getName().compareToIgnoreCase(
-							ft2.folder.getName());
-				}
-			});
-
-			// increment the level variable for the indentation-building loop
-			// and to pass on to the toString functions of the subtrees.
-			level++;
+			/* Increment the level variable for the indentation-building loop
+			   and to pass on to the toString functions of the subtrees. */
 			String indentation = "";
 			for (int i = 0; i < level; i++) {
 				indentation += "    ";
 			}
-
+			level++;
+			
 			// Shall contain all the output in a format easy to add onto.
-			StringBuffer output = new StringBuffer("> " + folder.getName()
-					+ "\n");
+			StringBuilder output = new StringBuilder();
+				
+			// Shall contain all the output in a format easy to add onto.
+			output.append(indentation).append("{\"" + folder.getName()
+					+ "\": [ \n");
 
 			// Include all the files in the folder.
 			for (File f : files) {
+				output.append("    "+indentation).append("\"");
 				if (useExtensions) { // Include extensions.
-					output.append(indentation).append(f.getName()).append("\n");
+					output.append(f.getName());
 				} else { // Hide the extensions.
-					output.append(indentation)
-							.append(f.getName().substring(0,
-									f.getName().lastIndexOf("."))).append("\n");
+					output.append(f.getName().substring(0,
+									f.getName().lastIndexOf(".")));
 				}
+				output.append("\",\n");
 			}
-
+	
 			// Include all the subfiles.
 			for (FileTree sub : subfolders) {
-				output.append(indentation).append(sub.toString(level));
+				output.append(sub.toString(level));
+				output.append(",\n");
 			}
-
+			
+			output.setLength(output.length() - 2);
+			output.append("\n"+indentation).append("]");
+			output.append("}");
+			
 			// Convert output into a string and return.
 			return output.toString();
 		}
